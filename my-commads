@@ -1,0 +1,98 @@
+Kubernetes - gravity :
+======================
+
+
+
+gravity enter -- --notty /usr/bin/kubectl -- get pods -owide
+
+
+etcdctl ls / --recursive
+
+ectdctl get /gravity/local/leader
+
+etcdctl ls /registry   - to get pods
+
+
+systemctl list-units | grep kube-controller-manager  - if this runs this is manager node
+
+~
+debugging 
+---------
+journalctl 
+
+first check cpu , memory 
+
+#docker info - data space used/total /available
+
+always kill pods if you get any issues 
+
+to resart docker 
+
+#systemctl list-units |grep docker
+
+#systemctl restart docker.service
+
+#journalctl since -1   like checking logs 
+
+
+systemctl list-units | grep planet
+
+planet - LXC
+
+
+kubectl get nodes
+
+
+kubectl get pods -owide --all-namespaces | grep  85(IP)
+
+kubectl get pods -owide | grep api-platform-api
+
+kubectl get pods -l app=arm  - related to runtime manager
+
+kubectl get pods -l app=api-platform  - components related to API manager 
+
+3 nodes for database and 3 for app 
+
+kubectl logs -f <podsname> - should throw error because it contains errors
+you should select containers -  to check logs 
+
+To scale containers --- > kubectl scale deployment api-platform-api --replicas 1
+
+
+kubectl edit deployment api-platform-api  ----> to edit the deployment yaml 
+
+ to check files  -> cd /ext/share
+ 
+kubectl get deployment api-platform-api -oyaml > api-platform.yaml
+
+kubectl patch -f api-platform-api  <yaml file>   to pass yaml file 
+
+to check logs :
+---------------
+kubectl get pods | grep api-platform-api
+
+kubectl logs -f --tail 10 api-platform* api-platform-api
+
+to scale 
+
+kubectl scale deployment api-platform-api --replicas 8 
+
+
+kubectl exec -it <podname> bash
+
+if we have more containers get pod <podname> -oyaml
+
+if we specifically enter into containser
+
+
+kubectl exec -t <podname> <containrname>
+
+to get list of containser details use
+
+kubectl get pod <podname> -oyaml or kubectl describe pod name
+
+
+
+
+
+
