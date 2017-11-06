@@ -1,0 +1,104 @@
+Exercise: Installing Kubernetes - Master Server
+
+Question : 
+
+
+NOTE: Although the process should largely be the same for any modern distribution, in order to evaluate your exercises, the commands and the solutions presented match the course distribution of CentOS 7.
+Complete the following:
+1. Install and configure "ntp" so that it start on boot
+2. Create the /etc/yum.repos.d/virt7-docker-common-release.repo with the following repo info:
+    [virt7-docker-common-release]
+      name=virt7-docker-common-release
+      baseurl=http://cbs.centos.org/repos/virt7-docker-common-release/x86_64/os/
+      gpgcheck=0
+3. Update the system, enable the repo and then install the packages necessary to create and configure a Kubernetes "Master Controller"
+
+
+
+
+Answer : 
+
+
+NOTE: Although the process should largely be the same for any modern distribution, in order to evaluate your exercises, the commands and the solutions presented match the course distribution of CentOS 7.
+Complete the following:
+1. Install and configure "ntp" so that it start on boot
+ 
+[root@tcox2 ~]# yum install -y ntp
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.advancedhosters.com
+ * epel: mirrors.cat.pdx.edu
+ * extras: mirror.wdc1.us.leaseweb.net
+ * nux-dextop: li.nux.ro
+ * updates: distro.ibiblio.org
+Resolving Dependencies
+--> Running transaction check
+---> Package ntp.x86_64 0:4.2.6p5-25.el7.centos.2 will be installed
+--> Processing Dependency: ntpdate = 4.2.6p5-25.el7.centos.2 for package: ntp-4.2.6p5-25.el7.centos.2.x86_64
+--> Processing Dependency: libopts.so.25()(64bit) for package: ntp-4.2.6p5-25.el7.centos.2.x86_64
+--> Running transaction check
+---> Package autogen-libopts.x86_64 0:5.18-5.el7 will be installed
+---> Package ntpdate.x86_64 0:4.2.6p5-25.el7.centos.2 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=======================================================================================================================
+ Package                        Arch                  Version                                Repository           Size
+=======================================================================================================================
+Installing:
+ ntp                            x86_64                4.2.6p5-25.el7.centos.2                base                547 k
+Installing for dependencies:
+ autogen-libopts                x86_64                5.18-5.el7                             base                 66 k
+ ntpdate                        x86_64                4.2.6p5-25.el7.centos.2                base                 86 k
+
+Transaction Summary
+=======================================================================================================================
+Install  1 Package (+2 Dependent packages)
+
+...more installation info here....
+
+[root@tcox2 ~]# systemctl enable ntpd && systemctl start ntpd && systemctl status ntpd
+Created symlink from /etc/systemd/system/multi-user.target.wants/ntpd.service to /usr/lib/systemd/system/ntpd.service.
+● ntpd.service - Network Time Service
+   Loaded: loaded (/usr/lib/systemd/system/ntpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Wed 2017-09-27 01:35:17 UTC; 42ms ago
+  Process: 1596 ExecStart=/usr/sbin/ntpd -u ntp:ntp $OPTIONS (code=exited, status=0/SUCCESS)
+ Main PID: 1597 (ntpd)
+   CGroup: /system.slice/ntpd.service
+           └─1597 /usr/sbin/ntpd -u ntp:ntp -g
+ 
+2. Create the /etc/yum.repos.d/virt7-docker-common-release.repo with the following repo info:
+    [virt7-docker-common-release]
+      name=virt7-docker-common-release
+      baseurl=http://cbs.centos.org/repos/virt7-docker-common-release/x86_64/os/
+      gpgcheck=0
+3. Update the system, enable the repo and then install the packages necessary to create and configure a Kubernetes "Master Controller"
+ 
+[root@tcox2 ~]# yum install -y --enablerepo=virt7-docker-common-release etcd kubernetes docker
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirrors.advancedhosters.com
+ * epel: mirror.us.leaseweb.net
+ * extras: mirror.wdc1.us.leaseweb.net
+ * nux-dextop: li.nux.ro
+ * updates: repo1.ash.innoscale.net
+Resolving Dependencies
+--> Running transaction check
+---> Package docker.x86_64 2:1.12.6-55.gitc4618fb.el7.centos will be installed
+--> Processing Dependency: docker-common = 2:1.12.6-55.gitc4618fb.el7.centos for package: 2:docker-1.12.6-55.gitc4618fb.el7.centos.x86_64
+--> Processing Dependency: docker-client = 2:1.12.6-55.gitc4618fb.el7.centos for package: 2:docker-1.12.6-55.gitc4618fb.el7.centos.x86_64
+ 
+Dependency Installed:
+  conntrack-tools.x86_64 0:1.4.4-3.el7_3                    container-selinux.noarch 2:2.21-2.gitba103ac.el7          
+  container-storage-setup.noarch 0:0.6.0-1.gite67c964.el7   device-mapper-event.x86_64 7:1.02.140-8.el7               
+  device-mapper-event-libs.x86_64 7:1.02.140-8.el7          device-mapper-persistent-data.x86_64 0:0.7.0-0.1.rc6.el7  
+  docker-client.x86_64 2:1.12.6-55.gitc4618fb.el7.centos    docker-common.x86_64 2:1.12.6-55.gitc4618fb.el7.centos    
+  kubernetes-client.x86_64 0:1.5.2-0.7.git269f928.el7       kubernetes-master.x86_64 0:1.5.2-0.7.git269f928.el7       
+  kubernetes-node.x86_64 0:1.5.2-0.7.git269f928.el7         libaio.x86_64 0:0.3.109-13.el7                            
+  libnetfilter_cthelper.x86_64 0:1.0.0-9.el7                libnetfilter_cttimeout.x86_64 0:1.0.0-6.el7               
+  libnetfilter_queue.x86_64 0:1.0.2-2.el7_2                 lvm2.x86_64 7:2.02.171-8.el7                              
+  lvm2-libs.x86_64 7:2.02.171-8.el7                         oci-register-machine.x86_64 1:0-3.11.1.gitdd0daef.el7     
+  oci-systemd-hook.x86_64 1:0.1.12-1.git1e84754.el7         oci-umount.x86_64 2:1.12.6-55.gitc4618fb.el7.centos       
+  skopeo-containers.x86_64 1:0.1.23-1.git1bbd87f.el7        socat.x86_64 0:1.7.3.2-2.el7                              
+  yajl.x86_64 0:2.0.4-4.el7
