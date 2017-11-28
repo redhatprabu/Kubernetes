@@ -1,0 +1,22 @@
+NOTE: Although the process should largely be the same for any modern distribution, in order to evaluate your exercises, the commands and the solutions presented match the course distribution of CentOS 7.
+Create and display a basic POD definition that will install a single POD with a single container running the NGINX webserver image. 
+
+
+
+
+Answer : 
+
+
+
+Potential POD YAML File - nginx-pod.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.7.9
+    ports:
+    - containerPort: 80
