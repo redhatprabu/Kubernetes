@@ -1,0 +1,23 @@
+NOTE: Although the process should largely be the same for any modern distribution, in order to evaluate your exercises, the commands and the solutions presented match the course distribution of CentOS 7.
+Create and display a basic POD definition that will install a single POD with a single container running the NGINX webserver image. Using the "label" directive, make sure you can refer to your pod with the name "nginx" directly.
+
+Answer : 
+
+
+Potential POD Label Solution - nginx-pod-label.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    
+    
+    
