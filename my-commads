@@ -1,9 +1,9 @@
-Kubernetes - gravity :
+Kubernetes -  :
 ======================
 
 
 
-gravity enter -- --notty /usr/bin/kubectl -- get pods -owide
+ /usr/bin/kubectl -- get pods -owide
 
 
 etcdctl ls / --recursive
@@ -49,14 +49,14 @@ kubectl get pods -owide | grep api-platform-api
 
 kubectl get pods -l app=arm  - related to runtime manager
 
-kubectl get pods -l app=api-platform  - components related to API manager 
+kubectl get pods -l app=<app-name>  - components related to API manager 
 
 3 nodes for database and 3 for app 
 
 kubectl logs -f <podsname> - should throw error because it contains errors
 you should select containers -  to check logs 
 
-To scale containers --- > kubectl scale deployment api-platform-api --replicas 1
+To scale containers --- > kubectl scale deployment <api> --replicas 1
 
 
 kubectl edit deployment api-platform-api  ----> to edit the deployment yaml 
