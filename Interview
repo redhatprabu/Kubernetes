@@ -1,0 +1,481 @@
+1) Which of these components mount volumes to containers?
+
+Correct
+
+Correct answer
+kubelet
+
+Explanation
+The kubelet which runs on nodes handles moment-to-moment management of the pods on its node.
+
+
+
+
+2) What controls a Kubernetes cluster?
+
+Correct
+
+Correct answer
+The Master
+
+Explanation
+The master node contains the Kubernetes api server, which controls what the cluster does.
+
+
+
+
+3) What is the difference between a Docker volume and a Kubernetes volume?
+
+Correct
+
+Correct answer
+Volume lifetimes. In Docker, this is loosely defined. In Kubernetes, the volume has the same lifetime as its surrounding pod.
+
+Explanation
+Docker volumes are not used in conjunction with Kubernetes at this time.
+
+
+
+
+4) Containers are run on which of these?
+
+Correct
+
+Correct answer
+Nodes
+
+Explanation
+Nodes run the pods.
+
+
+
+
+5) Communications between the apiserver and the kubelet on the cluster nodes are used for all but which of the following?
+
+Correct
+
+Correct answer
+Keep-alive xml packets
+
+Explanation
+Communications between the apiServer and the Kubelet are constantly communicating for a variety of purposes.
+
+
+
+
+6) Which of these is a list of common Kubernetes primitives?
+
+Correct
+
+Correct answer
+pod, service, persistentVolume, deployment
+
+Explanation
+There are many others, but those are the ones you'll likely work with most often.
+
+
+
+
+7) In a typical deployment, the Kubernetes Master listens on what port number?
+
+Correct
+
+Correct answer
+443
+
+Explanation
+The API server, by default, listens on port 443, the secure HTTP port.
+
+
+
+
+8) The connection between the apiserver and nodes, pods and services:
+
+Correct
+
+Correct answer
+Is unencrypted and therefore unsafe to run over public networks.
+
+Explanation
+It's a fairly simple process to encrypt the streams using TLS.
+
+
+
+
+9) In Kubernetes, a group of one or more containers is called:
+
+Correct
+
+Correct answer
+A pod
+
+Explanation
+A pod is usually one container but can be a group of containers working together.
+
+
+
+
+10) Kubernetes changed the name of cluster members to "Nodes." What were they called before that?
+
+Correct
+
+Correct answer
+Minions
+
+Explanation
+A lot of documentation and tutorials online still refer to worker nodes this way.
+
+
+
+
+11) What does a pod represent in a Kubernetes cluster?
+
+Correct
+
+Correct answer
+A running process
+
+Explanation
+Pods are the running containers in a Kubernetes cluster.
+
+
+
+
+12) If memory is running low on a running node, which of these keys will return "True"?
+
+Correct
+
+Correct answer
+MemoryPressure
+
+Explanation
+MemoryPressure and DiskPressure return true as a node starts to become overcommitted.
+
+
+
+
+13) Which of these are not inherently created by Kubernetes?
+
+Correct
+
+Correct answer
+Nodes
+
+Explanation
+Nodes are added to a cluster, and a Kubernetes object is created to reflect them, but Kubernetes itself doesn't create them.
+
+
+
+
+14) Unique IP addresses are assigned to:
+
+Correct
+
+Correct answer
+Pods
+
+Explanation
+A pod gets assigned a single IP address, regardless of how many containers make it up. This is analogous to many services running on a single virtual machine.
+
+
+
+
+15) Usually, when submitting a Kubernetes API call, data is sent in which format? (Select all that apply)
+
+Correct
+
+Correct answer
+JSON, YAML
+
+Explanation
+If using a direct API call in an application, JSON is used. If using kubectl to submit a request, it takes YAML.
+
+
+
+
+1) Which of these is not a CNI provider?
+
+Correct
+
+Correct answer
+Ceph
+
+Explanation
+Ceph is an object store, the other three are CNI providers.
+
+
+
+
+2) What is the node called that runs the apiserver?
+
+Correct
+
+Correct answer
+The Master
+
+Explanation
+The Master node runs the apiserver and is where Kubernetes accepts requests via a RESTful API.
+
+
+420/
+
+3) What do many Kubernetes deployment tools handle automatically for you?
+
+Correct
+
+Correct answer
+Certificate creation
+
+Explanation
+Most deployment tools handle the certificate creation but will not do the other things.
+
+
+420/
+
+4) Which types of API requests should be authenticated?
+
+Correct
+
+Correct answer
+All of them
+
+Explanation
+Everything, every time. Don't allow security holes in your cluster!
+
+
+420/
+
+5) What is the default encryption used in Kubernetes? (Choose the answer that is most correct.)
+
+Correct
+
+Correct answer
+TLS
+
+Explanation
+TLS is the default encryption used in Kubernetes.
+
+
+
+
+6) Which platform(s) will Minikube run on? (Select all that apply)
+
+Correct
+
+Correct answer
+Linux, Windows, Mac OS X
+
+Explanation
+And probably, just for spite, someone will port it to Novell Netware so we'll have to change this question, but Minikube should run just about anywhere.
+
+
+
+
+7) Which of these is an inexpensive and easy way to try out Kubernetes?
+
+Correct
+
+Correct answer
+Minikube
+
+Explanation
+Minikube is a great and inexpensive way to try out Kubernetes.
+
+
+
+
+8) What underlying technology does Flannel use to allow pods to communicate?
+
+Correct
+
+Correct answer
+VxLANs
+
+Explanation
+Flannel uses VxLANs for the overlay network among the pods.
+
+
+420/
+
+9) For network policies to work in Kubernetes, which of these must be true?
+
+Incorrect
+
+Correct answer
+The CNI must enforce the network policies.
+
+Explanation
+If the CNI doesn't support network policies, then applying a YAML formula with a network policy in it will return a success, but the policies will not be enforced.
+
+
+418/
+
+10) To deploy Kubernetes using kubeadm, you'll have to choose:
+
+Correct
+
+Correct answer
+An appropriate CNI (Container Network Interface)
+
+Explanation
+kubeadm doesn't make any provisions for inter-node networking. There are a lot of CNIs to choose from!
+
+
+
+
+11) In Kubernetes, one of the primitives is a Node (which was formerly referred to as a "Minion"). What does it represent?
+
+Correct
+
+Correct answer
+A physical or virtual machine running the Kubelet and doing the compute work via a container service like Docker or Rocket.
+
+Explanation
+While nodes are generally considered to be physical machines, as that's the norm in production deployments, they can be virtual machines as well.
+
+
+420/
+
+12) How is authorization handled in Kubernetes?
+
+Correct
+
+Correct answer
+A built-in Role Based Access Control system.
+
+Explanation
+K8s has its own RBAC components built it.
+
+
+418/
+
+1) How can a user specify which scheduler a pod should use?
+
+Correct
+
+Correct answer
+Through the schedulerName tag in the spec.
+
+Explanation
+The tag for specifying a particular scheduler is schedulerName and defaults to default-scheduler.
+
+
+
+2) If a toleration and a taint match during scheduling, what happens?
+
+Correct
+
+Correct answer
+The taint is ignored and the pod might be scheduled to the node.
+
+Explanation
+Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes. One or more taints are applied to a node; this marks that the node should not accept any pods that do not tolerate the taints. Tolerations are applied to pods, and allow (but do not require) the pods to schedule onto nodes with matching taints.
+
+
+428/
+
+3) Why might a user desire two pods to have anti-affinity?
+
+Correct
+
+Correct answer
+She wants them to run on different nodes to avoid sharing failure domains.
+
+Explanation
+Anti-affinity means that two pods will not run on the same node, and is usually implemented to prevent two pods from being in the same failure domain in case something goes wrong.
+
+
+428/
+
+4) What is the scheduler?
+
+Correct
+
+Correct answer
+A pod on the master node.
+
+Explanation
+The scheduler is a process that runs in a pod, usually on the master node. While it's unusual, it's possible to have multiple schedulers running on the same cluster.
+
+
+428/
+
+5) If a pod requests more resources than is available on any given node, what happens?
+
+Correct
+
+Correct answer
+The pod will not be scheduled until a node with the resources becomes available.
+
+Explanation
+The pod will remain in a "Pending" status until a node becomes available -- which might be never.
+
+
+428/
+
+6) What is podAffinity used for?
+
+Correct
+
+Correct answer
+Placing two or more pods on the same node.
+
+Explanation
+Placing two or more pods on the same node is done with the podAffinity attribute and uses labels.
+
+
+428/
+
+7) Why are annotations particularly important when using multiple or custom schedulers?
+
+Correct
+
+Correct answer
+Because they can remind operators which scheduler was used to place (or fail to place) a pod.
+
+Explanation
+Annotations are designed to provide additional non-identifying information about a pod, and things like application version or scheduler that placed the pod are ideal uses for these.
+
+
+//.com/cp/exercises/view/id/669/module/155
+
+8) How can a pod be assigned to a specific node?
+
+Correct
+
+Correct answer
+Using a nodeSelector with properly labelled nodes.
+
+Explanation
+Using the nodeSelector is the easiest way to manually assign pods to nodes.
+
+
+430/
+
+9) When an API request is made to create a pod, which piece determines which node will be used to instantiate the new pod?
+
+Correct
+
+Correct answer
+The scheduler
+
+Explanation
+The scheduler is what determines which pods go with which nodes.
+
+
+428/
+
+10) What are taints and what are they applied to?
+
+Correct
+
+Correct answer
+Taints are used to repel certain pods from nodes and are applied to nodes.
+
+Explanation
+Taints allow a node to repel a set of pods.
+
+
+428/
+
+
