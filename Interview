@@ -479,3 +479,131 @@ Taints allow a node to repel a set of pods.
 428/
 
 
+
+1) Is it possible to get the logs back from a dead or evicted pod? If so, how?
+
+Correct
+
+Correct answer
+Yes, add the --previous flag to the kubectl logs command.
+
+Explanation
+To grab the last logs, just add --previous!
+
+
+
+2) Which command will give you stdout of a pod called "to-the-screen"?
+
+Correct
+
+Correct answer
+kubectl logs to-the-screen
+
+Explanation
+kube logs is the fastest way to get stdout and the recommended, standard way to configure your applications in containers to handle their logs.
+
+
+
+
+3) I'm troubleshooting an application issue and would love to see the application's logs, which are in a file in the container "appctn" in the pod "apppod-abcdef123-45678" at /var/log/applog. Which of these commands would list that for me?
+
+Correct
+
+Correct answer
+kubectl exec apppod-abcdef123-45678 -- cat /var/log/applog
+
+Explanation
+kubectl logs only work for STDOUT, so if your logs are elsewhere, you'll need to pull them with something like the command here.
+
+
+
+4) Where does the Kubernetes key/value store (etcd) log file reside?
+
+Correct
+
+Correct answer
+On the host in /var/log/pods
+
+Explanation
+The Kubernetes services that run in pods on the host store their logs in /var/log/pods
+
+
+
+
+5) What's the recommended method for dealing with applications that insist on writing out logs to a file rather than being able to redirect them to stdout?
+
+Correct
+
+Correct answer
+Find a logging agent that can operate inside the pod and send the logs to a central file store or log aggregator.
+
+Explanation
+It's usually a fairly easy task to incorporate a logging handler and central location for log files within the cluster.
+
+
+6) Starting with Kubernetes 1.8, there is a new metrics API. This can be accessed directly from the command line with which command?
+
+Correct
+
+Correct answer
+kubectl top [nodes | pods]
+
+Explanation
+kubectl top, along with the object you'd like to watch, gives some in-depth information right on the command line. Who needs a GUI?
+
+
+
+
+7) I have a node called "node8" and I'd like to know what kind of load it's under including the CPU and Memory requests. Which of these commands would give me that information?
+
+Correct
+
+Correct answer
+kubectl describe node node8
+
+Explanation
+kubectl describe node will give you all kinds of very useful up to date information about a given node.
+
+
+
+
+8) What's an easy command to check the health and status of your cluster?
+
+Correct
+
+Correct answer
+kubectl get nodes
+
+Explanation
+Kubectl get nods will show you at a glance which of your nodes are ready and which might be having troubles. It's a great first stop if you suspect trouble.
+
+
+
+
+9) Which log command will show you just the final 8 lines of stdout for a pod?
+
+Correct
+
+Correct answer
+kubectl logs --tail=8
+
+Explanation
+Two hyphens and an equal, unless you want exactly ten lines, then it's just kubectl logs --tail
+
+
+
+10) Is it possible to get a shell prompt to a Ubuntu 16.04 based container called "sidecar1" in the pod "star-aaaaaaaaaa-bbbbb"? There are several containers in the pod. If so, how?
+
+Correct
+
+Correct answer
+Yes! kubectl exec -it star-aaaaaaaaaa-bbbbb --container sidecar1 -- /bin/bash
+
+Explanation
+While it's discouraged in Kubernetes, it's still possible to get to a container's shell. It's generally considered a bad idea to do things like alter configuration files or apt-get files while logged in. Its use should be limited to debugging when possible.
+
+
+
+
+
+
