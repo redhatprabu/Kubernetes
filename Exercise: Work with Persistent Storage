@@ -1,0 +1,98 @@
+1. On one of your cloud servers, install and configure Ubuntu 16 to be an NFS server.  Export a directory for use by the cluster.  Be sure you give all of your cluster nodes access to the directory.
+
+2. Configure each of your Kubernetes nodes -- including the master -- as NFS clients.
+
+3. Write the yaml to provision the storage in Kubernetes and call the API with it, and verify that the appropriate object has been created.
+
+4. Write the yaml to request usage of the storage and call the API. Verify that the appropriate objects were created and/or allocated.
+
+5. Write the yaml required by a busybox container to mount the volume at /tmp. Call the api.
+
+6. Invoke the shell on the busybox to interactively work with the container. Change to the /tmp directory and attempt to create a file called "its-alive.txt".
+
+7. Verify that the file exists on the NFS server in the exported directory.
+
+
+
+. Once the NFS node comes up, perform the following steps on it:
+
+sudo apt update
+sudo apt upgrade -y
+Make a note of the internal IP addresses your four Kubernetes cluster are assigned.
+sudo apt install nfs-kernel-server -y
+Create a directory: sudo mkdir /var/nfs/general -p
+Set correct owner and group on the directory: sudo chown nobody:nogroup /var/nfs/general
+Edit the file /etc/exports such that the following line is added:
+/var/nfs/general      x.x.x.x(rw,sync,no_subtree_check) y.y.y.y(rw,sync,no_subtree_check) z.z.z.z(rw,sync,no_subtree_check) a.a.a.a(rw,sync,no_subtree_check)
+
+Where x.x.x.x, y.y.y.y, z.z.z.z, and a.a.a.a are the internal IP addresses of your Kubernetes nodes.
+Restart the NFS server with the command sudo systemctl restart nfs-kernel-server.
+2. Log in to each of your Kubernetes nodes, including the master, and execute the command sudo apt install nfs-common
+
+3. Make a note of your NFS server's internal ip address and create this file,pv.yaml, while replacing b.b.b.b with the NFS server's IP address:
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: lab-vol
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    path: /var/nfs/general
+    server: b.b.b.b
+    readOnly: false
+Execute the command kubectl create -f pv.yaml and verify that the PersistentVolume was provisioned by executing kubectl get pv
+
+4. Create the file for the PVC similar to the following yaml file named pvc.yaml:
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+Execute the command kubectl create -f pvc.yaml and verify that it was created and bound to the lab-vol PV with the command kubectl get pvc and another look at kubectl get pv should also verify that they two objects are bound.
+
+5. I created this yaml called nfs-pod.yaml:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nfs-pod
+  labels:
+    name: nfs-pod
+spec:
+  containers:
+  - name: nfs-ctn
+    image: busybox
+    command:
+      - sleep
+      - "3600"
+    volumeMounts:
+    - name: nfsvol
+      mountPath: /tmp
+  restartPolicy: Always
+  securityContext:
+    fsGroup: 65534
+    runAsUser: 65534
+  volumes:
+    - name: nfsvol 
+      persistentVolumeClaim:
+        claimName: nfs-pvc
+And created the pod by executing kubectl create -f nfs-pod.yaml
+
+6. Invoke the shell in the busybox container by using the command kubectl exec -it nfs-pod -- sh and then running these commands:
+
+cd /tmp
+echo "My Monster!" > its-alive.txt
+exit
+7. On the NFS server, verify that the file was written:ls -la /var/nfs/general/
