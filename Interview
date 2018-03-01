@@ -603,7 +603,110 @@ Explanation
 While it's discouraged in Kubernetes, it's still possible to get to a container's shell. It's generally considered a bad idea to do things like alter configuration files or apt-get files while logged in. Its use should be limited to debugging when possible.
 
 
+1) What determines how a set of pods are allowed communicate with one another and other network endpoints?
 
+Correct
+
+Correct answer
+Network Policies
+
+Explanation
+Network policies determine what traffic gets into and out of a pod. The CNI must support them, though, but most of them do.
+ 
+2) When a service type of "ClusterIP" is used, what is the result?
+
+Correct
+
+Correct answer
+A single IP address within the cluster that redirects traffic to a pod (possibly on a different node) serving the application (the pod).
+
+Explanation
+ClusterIP is most commonly used with third-party load balancers.
+
+ 
+3) Think about the YAML for a network policy. If you had to create one, what is the pattern?
+
+Correct
+
+Correct answer
+Preamble, podSelector, ingress, and/or egress rules
+
+Explanation
+Preamble contains apiVersion, Kind, and Metadata; then comes the podSelector to determine which pods this policy oversees; and, finally, the rules.
+
+ 
+4) For a user to be able to request an Ingress resource, what must the cluster have?
+
+Correct
+
+Correct answer
+An Ingress controller compatible with available and appropriate service providers like load balancers.
+
+Explanation
+With Kubernetes, the general rule of thumb is that YAML requests will return successfully, but if there is no service to fulfill it then the request will have no effect.
+ 
+5) If a service called "web-head" is exposed in the default namespace, then other pods can resolve it using all of these hostnames except which?
+
+Correct
+
+Correct answer
+web-head.local
+
+Explanation
+The .local won't work!
+ 
+6) Ingress is fairly new to the Kubernetes stack. What version number was the first one to include it?
+
+Correct
+
+Correct answer
+1.1
+
+Explanation
+v1.1 of Kubernetes included the Ingress API object and it's been constantly improved and increasingly used ever since.
+
+ 
+7) What is required to specify a service type of "LoadBalancer"?
+
+Correct
+
+Correct answer
+A cloud provider that supports Kubernetes-provisioned load balancers.
+
+Explanation
+The "LoadBalancer" service type only works on cloud providers that support it. Minikube will also allow it but does not create a full, production-quality load balancer.
+
+ 
+8) What handles inter-pod communication?
+
+Correct
+
+Correct answer
+The CNI
+
+Explanation
+The CNI (Container Network Interface) allows pods to communicate with one another within a cluster regardless of which node they are on.
+
+ 
+9) If an Ingress request is made with no associated rules, what happens?
+
+Correct
+
+Correct answer
+All traffic is sent to a single host.
+
+Explanation
+This is a useful way of setting up common error pages, such as the location of a unified 404 page.
+ 
+10) What is an Ingress as it relates to Kubernetes?
+
+Correct
+
+Correct answer
+An API object that manages external access to the services in a cluster, usually HTTP.
+
+Explanation
+A fairly new concept in Kubernetes, an Ingress allows us to abstract away the implementation details of routes into the cluster, such as Load Balancers.
 
 
 
