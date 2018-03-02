@@ -710,3 +710,72 @@ A fairly new concept in Kubernetes, an Ingress allows us to abstract away the im
 
 
 
+
+ 1) Which of the following is true about a volume?
+
+Correct
+
+Correct answer
+Regardless of which access modes a volume supports, it can only support one at a time.
+
+Explanation
+For example, if a volume is mounted as ReadOnlyMany in one pod, then another pod may not mount it in ReadWriteMany, even if it is supported by the volume type.
+
+ 
+2) What are the access modes that can be requested for a volume?
+
+Correct
+
+Correct answer
+ReadWriteOnce, ReadOnlyMany, ReadWriteMany
+
+Explanation
+Access modes are in terms of how many pods can read or write to a volume simultaneously.
+
+ 
+3) A PersistentVolume is a cluster storage resource, but what is a PersistentVolumeClaim?
+
+Correct
+
+Correct answer
+A user request for a storage resource
+
+Explanation
+The PVC request gets matched with a PV.
+
+ 
+4) What is the lifecycle of PVs and PVCs?
+
+Correct
+
+Correct answer
+Provision, Bind, Use, Reclaim
+
+Explanation
+First, the administrator provisions the resource or sets it up to be dynamically allocated. Next, when a PVC comes in, it's bound to a PV and used. Once the resource is removed, it's reclaimed according to the reclaim policies.
+
+ 
+5) PersistentVolumes (PVs) are cluster storage resources. How do they access different kinds of physical storage from different vendors?
+
+Correct
+
+Correct answer
+Plug-ins
+
+Explanation
+There are many different plug-ins in Kubernetes, and there's even FlexVolumes for plug-ins written by vendors but not added to the K8s repositories.
+
+ 
+6) What is ephemeral storage?
+
+Correct
+
+Correct answer
+Local storage on the node used for containers. Its contents are removed when the pod is deleted.
+
+Explanation
+Ephemeral storage is used to run containers on local nodes.
+ 
+ 
+ 
+
