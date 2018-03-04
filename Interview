@@ -839,3 +839,50 @@ Explanation
 Everything should be authenticated and authorized. It is not required but should be skipped only with very good reason.
 
 
+
+1) How can you run the command /usr/bin/id inside of the pod called "superman"?
+Correct
+
+Correct answer
+kubectl exec superman /usr/bin/id
+
+Explanation
+We left out the separator to reinforce that it's optional, but this is the best way.
+
+2) kubectl logs returns what?
+Correct
+
+Correct answer
+stdout and stderr from the target container and/or pod.
+
+Explanation
+This command will only return stdout and stderr from the containers. Other logs must be accessed differently.
+
+3) What is a way for containers to write information about fatal events to a location, where it can be easily retrieved and surfaced by tools like dashboards and monitoring software, called?
+Correct
+
+Correct answer
+Termination Messages
+
+Explanation
+Termination messages, if your containers are configured to write them, can provide valuable information about why a particular pod stopped.
+
+4) You suspect that one of your nodes might be having some difficulty. What is a good command to get an overview of the current status of your cluster?
+Correct
+
+Correct answer
+kubectl get nodes -o wide
+
+Explanation
+"Get nodes" is a great way to see which of your nodes are in a ready state. Cluster-info doesn't give very much information without the --dump flag, and with the flag it gives ALL THE INFORMATION, and would require extensive and tedious review. Kubectl top nodes would also be a valid choice, but top pods wouldn't tell us much of interest about the nodes.
+
+5) When troubleshooting a particular pod, which of these commands is likely to give you the most detailed information?
+Correct
+
+Correct answer
+kubectl describe pod.
+
+Explanation
+A great tool in your kit is kubectl describe. It's very useful and should be one of the first places you look when things head south.
+
+
