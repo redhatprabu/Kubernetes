@@ -777,5 +777,65 @@ Explanation
 Ephemeral storage is used to run containers on local nodes.
  
  
+ 1) What is a Pod Security Policy?
+Correct
+
+Correct answer
+A cluster-level resource that controls security sensitive aspects of the pod specification.
+
+Explanation
+The PodSecurityPolicy objects define a set of conditions that a pod must run with in order to be accepted into the system, as well as defaults for the related fields. They allow an administrator to control many aspects of the pod.
+
  
+
+2) At which levels can you apply security contexts? (Select all that apply)
+Correct
+
+Correct answer
+Container, Pod
+
+Explanation
+Containers and pods can have security contexts.
+ 
+
+3) Frank is signed in to his Kubernetes cluster and needs a few additional permissions that he does not currently possess to make his application work. How can he accomplish this?
+Correct
+
+Correct answer
+He must seek an administrator that has the permissions he needs to get a role created with those permissions.
+
+Explanation
+A user cannot escalate his or her own permissions. If a user does not have a given permissions, he or she cannot create a role with those permissions or grant someone else those permissions.
+ 
+
+4) Security context settings for a pod include all of the following except
+Correct
+
+Correct answer
+SecureImage
+
+Explanation
+Security contexts for pods allow a lot of specificities but not whether or not the image is secure.
+
+ 
+
+5) How could an administrator limit what a particular user could and could not do in a particular namespace?
+Correct
+
+Correct answer
+Configure a new role in the user's namespace with the appropriate rules, then bind the role to the user subject.
+
+Explanation
+Roles are API objects, and you don't want to use a ClusterRole for this one since we're specifying a particular namespace. Roles apply to subjects, which can be groups, users, or service accounts.
+ 
+
+6) Which of these types of calls should be authenticated and authorized?
+Correct
+
+Correct answer
+All of these
+
+Explanation
+Everything should be authenticated and authorized. It is not required but should be skipped only with very good reason.
+
 
