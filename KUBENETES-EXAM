@@ -153,5 +153,215 @@ Start this pod. Once its logs exceed a count of 20 (no need to be precise, any t
 7. Create a deployment with two replicas of nginx:1.7.9. The container listens on port 80. It should be named "web-dep" and be labeled with tier=frontend with an annotation of AppVersion=3.4. The containers must be running with the UID of 1000.
 
   Solution : 
+    apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-dep
+  annotations:
+    AppVersion: "3.4"
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx
+        tier: frontend
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+        - name : nginx
+          image: nginx:1.7.9
+          ports:
+          - containerPort: 80
+          command: ["sleep","1000"]
+
+   user@arshadalisyed1:~$ kubectl  get pods | grep web-dep
+web-dep-668bc96f6-8t5gp                  1/1       Running    0          4m
+web-dep-668bc96f6-tcc4t                  1/1       Running    0          4m
+user@arshadalisyed1:~$
+ 
+ 
+ 8. Upgrade the image in use by the web-dep deployment to nginx:1.9
+       
+         kubectl set image deployment web-dep nginx=1.9
+         
+9. Roll the image in use by the web-dep deployment to the previous version. Do not set the version number of the image explicitly for this command.
+   kubectl rollout undo deployment web-dep
+   
+10. Scale the number of replicas of the web-dep deployment up to 3.
+    kubectl scale deployment web-dep --replicas=3 
+    
+ 11. Expose the web-dep deployment as a service using a NodePort.
+      kubectl expose deployment web-dep --type=NodePort --port=80
+       try----> curl  http://localhost:30174   shoulld get nginx page
+       
+ 12. Configure a DaemonSet to run the image k8s.gcr.io/pause:2.0 in the cluster.
+ 
+      apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: zuul
+spec:
+  selector:
+    matchLabels:
+      quiet: "pod"
+  template:
+    metadata:
+      labels:
+        quiet: pod
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: gozer
+        image: k8s.gcr.io/pause:2.0
+        
+        user@arshadalisyed1:~$ kubectl get ds | grep dae
+daemonset-exam   3         3         2         3            2           <none>          52s
+user@arshadalisyed1:~$
+
+
+
+13. Configure the cluster to use 8.8.8.8 and 8.8.4.4 as upstream DNS servers.
+
+    apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kube-dns
+  namespace: kube-system
+data:
+  upstreamNameservers: |
+    ["8.8.8.8", "8.8.4.4"]
+    
+    chec by running :    kubectl get configmap kube-dns -n kube-system -oyaml
+    
+    
+    
+14. A legacy application (yaml below) requires that the IP address or host name of the web-dep endpoint be configured as an environment variable called "FROBOZZ" in the container. Alter the yaml accordingly, leave a copy in your home directory with the name zork.yaml, and start the pod.
+
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: zork
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: zork-app
+  template:
+    metadata:
+      labels:
+        app:zork-app
+    spec:
+      containers:
+      - name: p114
+        image: k8s.gcr.io/pause:2.0
+        
+        
+        
+        Solution : 
+        
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: zork
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: zork-app
+  template:
+    metadata:
+      labels:
+        app:zork-app
+    spec:
+      containers:
+      - name: p114
+        image: k8s.gcr.io/pause:2.0
+        env:
+        - name: FROBOZZ
+          value: "web-dep.default"
+ 
+ 15. Create a pod using the k8s.gcr.io/pause:20 container image that is allowed to run on the master node if necessary, but does not have to be scheduled there.
+ 
+ 
+   Solution : 
+     
+     user@arshadalisyed1:~$ cat sched.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: schedule-pod
+spec:
+  tolerations:
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+  containers:
+  - name: schedule-pod
+    image: k8s.gcr.io/pause:20
+
+user@arshadalisyed1:~$
+
+
+16. . Copy all Kubernetes Scheduler logs into a logs directory in your home directory.
+    
+ solution : 
+       The Kubernetes logs are located in /var/log/pods/
+      
+      
+
+17. Run the pod below until the counter in its stdout exceeds 20 (no need to be precise) and then extract the legacy log file to the logs directory in your home directory. Delete the pod.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counter2
+spec:
+  containers:
+  - name: count
+    image: busybox
+    args: [/bin/sh, -c, 'i=0; while true; do echo "$i: $(date)"; echo "$(date) - File - $i" >> /var/www/countlog; i=$((i+1)); sleep 3; done']
+    
+ANS: kubtctl exec -it counter2 -- cat /var/www/countlog > ~/home/logs/countlog 
+
+ 
+18. Build a default network policy that disallows all traffic to pods in the default namespace.
+    
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  
+  19. Remove the taint from the master node so it can now accept any work -- even from nodes with no tolerations of the master node.
+  
+      kubectl taint node master-node-name node-role.kubernetes.io/master-  
+  
+  
+  20. Create a yaml file for a secret called my-secret and saved in a file in your home directory called my-secret.yaml. The secret should have two fields: a username and password. The username should be set to "admin" and the password should be set to "iHeartKittens"
+    
+    
+    
+    
+  
+
+
+     
+     
+     
+     
+     
+          
+
     
 
+ 
+      
