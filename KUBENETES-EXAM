@@ -348,7 +348,14 @@ spec:
   
   20. Create a yaml file for a secret called my-secret and saved in a file in your home directory called my-secret.yaml. The secret should have two fields: a username and password. The username should be set to "admin" and the password should be set to "iHeartKittens"
     
-    
+    apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: aUhlYXJ0S2l0dGVucw==
     
     
   
